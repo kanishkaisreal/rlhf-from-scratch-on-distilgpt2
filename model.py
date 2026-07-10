@@ -160,8 +160,14 @@ def build_labels(input_ids):
     # TODO: return a fresh list equal to input_ids to serve as next-token labels
     return input_ids.copy()
 
-# Step 14 - mask_prompt_labels (not yet solved)
-# TODO: implement
+# Step 14 - mask_prompt_labels
+def mask_prompt_labels(labels, prompt_length):
+    # TODO: replace the first prompt_length entries of labels with -100 and return the new list
+    masked = labels.copy()
+    n = min(prompt_length, len(masked))
+    masked[:prompt_length] = [-100] * n
+
+    return masked
 
 # Step 15 - pad_batch (not yet solved)
 # TODO: implement
