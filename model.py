@@ -214,8 +214,22 @@ def collate_lm_batch(batch, pad_id):
         "attention_mask": torch.tensor(attention_mask, dtype=torch.long),
     }
 
-# Step 18 - iterate_minibatches (not yet solved)
-# TODO: implement
+# Step 18 - iterate_minibatches
+import random 
+
+def iterate_minibatches(examples, batch_size, seed=0):
+    # TODO: yield shuffled minibatches of size batch_size from examples (deterministic per seed).
+    rng = random.Random(seed)
+
+    shuffled = examples.copy()
+    rng.shuffle(shuffled)
+
+    batches = [] 
+    for start in range(0, len(shuffled), batch_size):
+        batch = shuffled[start:start + batch_size]
+        batches.append(batch)
+    
+    return batches
 
 # Step 19 - train_val_split (not yet solved)
 # TODO: implement
