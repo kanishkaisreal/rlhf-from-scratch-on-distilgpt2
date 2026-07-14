@@ -375,8 +375,20 @@ def clip_grad_norm(grads, max_norm):
 
     return total_norm
 
-# Step 25 - accumulate_gradients (not yet solved)
-# TODO: implement
+# Step 25 - accumulate_gradients
+import torch
+
+def accumulate_gradients(grad_list):
+    """Average a list of equally-shaped gradient tensors across micro-batches."""
+    # TODO: average a list of equally-shaped gradient tensors and return the mean tensor
+    total = torch.zeros_like(grad_list[0])
+
+    for grad in grad_list:
+        total = total + grad
+
+    avg_grad = total / len(grad_list)
+
+    return avg_grad
 
 # Step 26 - sft_train_step (not yet solved)
 # TODO: implement
