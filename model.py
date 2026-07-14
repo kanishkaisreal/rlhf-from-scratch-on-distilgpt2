@@ -249,8 +249,49 @@ def train_val_split(examples, val_ratio=0.2, seed=0):
 
     return train, val
 
-# Step 20 - shift_logits_and_labels (not yet solved)
-# TODO: implement
+# Step 20 - shift_logits_and_labels
+def shift_logits_and_labels(logits, labels):
+    # TODO: drop the last logit position and the first label position so token t predicts t+1
+    shifted_logits = logits[:,:-1,:] 
+    shifted_labels = labels[:,1:]
+
+    return shifted_logits, shifted_labels
+
+
+
+
+
+
+
+# Suppose:
+
+# input tokens / labels:
+# [A, B, C, D]
+
+# Original positions:
+
+# labels:
+# position 0: A
+# position 1: B
+# position 2: C
+# position 3: D
+
+# Model logits:
+
+# logits position 0 predicts next token after A
+# logits position 1 predicts next token after B
+# logits position 2 predicts next token after C
+# logits position 3 predicts next token after D
+
+# But there is no target after D inside this sequence.
+
+# So we use:
+
+# shifted_logits:
+# position 0, 1, 2
+
+# shifted_labels:
+# position 1, 2, 3
 
 # Step 21 - cross_entropy_loss (not yet solved)
 # TODO: implement
