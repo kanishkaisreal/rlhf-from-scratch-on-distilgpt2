@@ -421,8 +421,36 @@ def sft_train_step(model, batch, optimizer):
 
     return loss.item()
 
-# Step 27 - evaluate_loss (not yet solved)
-# TODO: implement
+# Step 27 - evaluate_loss
+import torch
+
+def evaluate_loss(model, batches):
+    """Mean LM loss over validation batches, no grad."""
+    # TODO: iterate batches under no_grad, shift logits/labels, average cross-entropy.
+
+    model.eval()
+
+    losses = []
+
+    with torch.no_grad():
+        for batch in batches:
+            outputs = model(
+                input_ids=batch["input_ids"],
+                attention_mask=batch["attention_mask"],
+            )
+
+            logits = outputs.logits
+
+            shifted_logits, shifted_labels = shift_logits_and_labels(
+                logits,
+                batch["labels"],
+            )
+
+            loss = cross_entropy_loss(shifted_logits, shifted_labels)
+
+            losses.append(loss.item())
+
+    return sum(losses) / len(losses)
 
 # Step 28 - lora_delta (not yet solved)
 # TODO: implement
