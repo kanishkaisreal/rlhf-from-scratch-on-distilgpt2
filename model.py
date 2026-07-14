@@ -459,8 +459,19 @@ def lora_delta(A, B, alpha, r):
     scale = alpha / rank
     return scale * (B @ A)
 
-# Step 29 - lora_linear_forward (not yet solved)
-# TODO: implement
+# Step 29 - lora_linear_forward
+def lora_linear_forward(x, base_weight, A, B, alpha, r, bias=None):
+    # TODO: return x @ (base_weight + lora_delta).T (+ bias) using lora_delta(A, B, alpha, r)
+    delta = lora_delta(A, B, alpha, r)
+
+    effective_weight = base_weight + delta 
+
+    output = x @ effective_weight.T
+
+    if bias is not None:
+        output = output + bias 
+    
+    return output
 
 # Step 30 - init_lora_weights (not yet solved)
 # TODO: implement
