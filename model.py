@@ -452,8 +452,12 @@ def evaluate_loss(model, batches):
 
     return sum(losses) / len(losses)
 
-# Step 28 - lora_delta (not yet solved)
-# TODO: implement
+# Step 28 - lora_delta
+def lora_delta(A, B, alpha, r):
+    # TODO: build the scaled low-rank weight update from factors A and B.
+    rank = A.shape[0] 
+    scale = alpha / rank
+    return scale * (B @ A)
 
 # Step 29 - lora_linear_forward (not yet solved)
 # TODO: implement
