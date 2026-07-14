@@ -357,8 +357,23 @@ def linear_warmup_schedule(step, warmup_steps):
         return 1 
     return min(1, step/ warmup_steps)
 
-# Step 24 - clip_grad_norm (not yet solved)
-# TODO: implement
+# Step 24 - clip_grad_norm
+def clip_grad_norm(grads, max_norm):
+    # TODO: compute the global L2 norm of grads and rescale in place if it exceeds max_norm.
+    total_sq = 0.0
+
+    for grad in grads:
+        total_sq += grad.pow(2).sum().item()
+
+    total_norm  = total_sq ** 0.5 
+
+    if total_norm  > max_norm :
+        scale = max_norm / total_norm 
+    
+        for grad in grads:
+            grad.mul_(scale)
+
+    return total_norm
 
 # Step 25 - accumulate_gradients (not yet solved)
 # TODO: implement
