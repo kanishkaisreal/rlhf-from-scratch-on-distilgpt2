@@ -313,8 +313,42 @@ def cross_entropy_loss(shift_logits, shift_labels):
 
     return loss
 
-# Step 22 - adamw_update (not yet solved)
-# TODO: implement
+# Step 22 - adamw_update
+import torch
+
+def adamw_update(param, grad, state, lr, betas=(0.9, 0.999), eps=1e-8, weight_decay=0.0):
+    """Apply one in-place AdamW step to `param` using `grad` and persistent `state`."""
+    # TODO: initialize state on first call, then update moments and apply the decoupled AdamW step
+    beta1, beta2 = betas 
+
+    if "step" not in state:
+        state["step"] = 0
+        state["m"] = torch.zeros_like(param)
+        state["v"] = torch.zeros_like(param)
+
+    # Step counter must increase every update
+    state["step"] += 1
+    step = state["step"]
+
+    m = state["m"]
+    v = state["v"]
+
+    # Adam moment updates
+    m.mul_(beta1).add_(grad, alpha=1 - beta1)
+    v.mul_(beta2).addcmul_(grad, grad, value=1 - beta2)
+
+    # Bias correction
+    m_hat = m / (1 - beta1 ** step)
+    v_hat = v / (1 - beta2 ** step)
+
+    # AdamW decoupled weight decay
+    if weight_decay != 0.0:
+        param.mul_(1 - lr * weight_decay)
+
+    # Adaptive parameter update
+    param.addcdiv_(m_hat, torch.sqrt(v_hat) + eps, value=-lr)
+
+    return param
 
 # Step 23 - linear_warmup_schedule (not yet solved)
 # TODO: implement
