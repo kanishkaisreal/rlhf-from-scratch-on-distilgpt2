@@ -589,8 +589,16 @@ def build_synthetic_preference_dataset(num_examples=8, seed=0):
 
     return examples
 
-# Step 35 - format_preference (not yet solved)
-# TODO: implement
+# Step 35 - format_preference
+def format_preference(example):
+    chosen_text = example["prompt"] + " " + example["chosen"]
+    rejected_text = example["prompt"] + " " + example["rejected"]
+
+
+    return {
+        "chosen_text": chosen_text,
+        "rejected_text": rejected_text,
+    }
 
 # Step 36 - reward_head_forward (not yet solved)
 # TODO: implement
