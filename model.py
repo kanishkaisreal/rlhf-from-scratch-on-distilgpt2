@@ -609,8 +609,14 @@ def reward_head_forward(hidden_state, weight, bias):
     rewards = hidden_state @ weight.T + bias
     return rewards.squeeze(-1)
 
-# Step 37 - pairwise_reward_loss (not yet solved)
-# TODO: implement
+# Step 37 - pairwise_reward_loss
+import torch
+import torch.nn.functional as F
+
+def pairwise_reward_loss(chosen, rejected):
+    diff = chosen - rejected
+    loss = -F.logsigmoid(diff).mean()
+    return loss
 
 # Step 38 - reward_bce_loss (not yet solved)
 # TODO: implement
