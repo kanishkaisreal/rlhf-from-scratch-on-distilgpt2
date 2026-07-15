@@ -536,8 +536,58 @@ def merge_lora(base_weight, lora_a, lora_b, scaling):
     merged_weight = base_weight + delta
     return merged_weight
 
-# Step 34 - build_synthetic_preference_dataset (not yet solved)
-# TODO: implement
+# Step 34 - build_synthetic_preference_dataset
+def build_synthetic_preference_dataset(num_examples=8, seed=0):
+    pool = [
+        {
+            "prompt": "What is the capital of France?",
+            "chosen": "The capital of France is Paris.",
+            "rejected": "I do not know.",
+        },
+        {
+            "prompt": "What is 2 + 2?",
+            "chosen": "2 + 2 equals 4.",
+            "rejected": "2 + 2 equals 5.",
+        },
+        {
+            "prompt": "What color is the sky on a clear day?",
+            "chosen": "The sky is blue on a clear day.",
+            "rejected": "The sky is green.",
+        },
+        {
+            "prompt": "What animal says meow?",
+            "chosen": "A cat says meow.",
+            "rejected": "A dog says meow.",
+        },
+        {
+            "prompt": "What is the opposite of hot?",
+            "chosen": "The opposite of hot is cold.",
+            "rejected": "The opposite of hot is hotter.",
+        },
+        {
+            "prompt": "How many days are in a week?",
+            "chosen": "There are 7 days in a week.",
+            "rejected": "There are 10 days in a week.",
+        },
+        {
+            "prompt": "What do plants need to grow?",
+            "chosen": "Plants need water, sunlight, and nutrients to grow.",
+            "rejected": "Plants need only darkness to grow.",
+        },
+        {
+            "prompt": "What is the first letter of the alphabet?",
+            "chosen": "The first letter of the alphabet is A.",
+            "rejected": "The first letter of the alphabet is Z.",
+        },
+    ]
+
+    examples = []
+
+    for i in range(num_examples):
+        index = (seed + i) % len(pool)
+        examples.append(pool[index].copy())
+
+    return examples
 
 # Step 35 - format_preference (not yet solved)
 # TODO: implement
