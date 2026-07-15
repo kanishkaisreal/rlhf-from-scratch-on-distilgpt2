@@ -632,8 +632,15 @@ def reward_bce_loss(chosen, rejected):
 
     return loss
 
-# Step 39 - pairwise_accuracy (not yet solved)
-# TODO: implement
+# Step 39 - pairwise_accuracy
+import torch
+
+def pairwise_accuracy(c, r):
+    """Fraction of pairs where chosen_reward > rejected_reward."""
+    # TODO: return the fraction of pairs where chosen strictly beats rejected
+    correct = c > r
+    accuracy = correct.float().mean()
+    return accuracy.item()
 
 # Step 40 - reward_train_step (not yet solved)
 # TODO: implement
