@@ -529,8 +529,12 @@ def count_trainable_params(model):
 # total LoRA params = r * d_in + d_out * r
 #                   = r * (d_in + d_out)
 
-# Step 33 - merge_lora (not yet solved)
-# TODO: implement
+# Step 33 - merge_lora
+def merge_lora(base_weight, lora_a, lora_b, scaling):
+    # TODO: fold the scaled low-rank update B @ A back into the base weight matrix.
+    delta = scaling * (lora_b @ lora_a)
+    merged_weight = base_weight + delta
+    return merged_weight
 
 # Step 34 - build_synthetic_preference_dataset (not yet solved)
 # TODO: implement
