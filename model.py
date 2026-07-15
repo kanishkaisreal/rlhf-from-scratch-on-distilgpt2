@@ -496,8 +496,38 @@ def freeze_base_params(model):
 
     return model
 
-# Step 32 - count_trainable_params (not yet solved)
-# TODO: implement
+# Step 32 - count_trainable_params
+def count_trainable_params(model):
+    # TODO: sum p.numel() over parameters with requires_grad=True
+    total = 0 
+    for param in model.parameters():
+        if param.requires_grad:
+            total += param.numel()
+        
+    
+    return total 
+
+
+
+# numel 
+# number of scalar values inside the tensor
+
+# weight.shape = (4, 3)
+
+# Then:
+
+# weight.numel() = 4 * 3 = 12
+
+# A shape = (r, d_in)
+# B shape = (d_out, r)
+
+# Trainable LoRA count:
+
+# A params = r * d_in
+# B params = d_out * r
+
+# total LoRA params = r * d_in + d_out * r
+#                   = r * (d_in + d_out)
 
 # Step 33 - merge_lora (not yet solved)
 # TODO: implement
