@@ -618,8 +618,19 @@ def pairwise_reward_loss(chosen, rejected):
     loss = -F.logsigmoid(diff).mean()
     return loss
 
-# Step 38 - reward_bce_loss (not yet solved)
-# TODO: implement
+# Step 38 - reward_bce_loss
+import numpy as np
+
+def reward_bce_loss(chosen, rejected):
+    # TODO: BCE-style reward loss with chosen as positives and rejected as negatives.
+    chosen_loss = np.logaddexp(0, -chosen)
+    rejected_loss = np.logaddexp(0, rejected)
+
+    loss = np.mean(
+        np.concatenate([chosen_loss, rejected_loss])
+    )
+
+    return loss
 
 # Step 39 - pairwise_accuracy (not yet solved)
 # TODO: implement
