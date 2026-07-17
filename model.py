@@ -642,8 +642,48 @@ def pairwise_accuracy(c, r):
     accuracy = correct.float().mean()
     return accuracy.item()
 
-# Step 40 - reward_train_step (not yet solved)
-# TODO: implement
+# Step 40 - reward_train_step
+import torch
+
+def reward_train_step(model, reward_head, batch, optimizer):
+    model.train()
+    reward_head.train()
+    optimizer.zero_grad()
+
+    def score_branch(input_ids, attention_mask):
+        hidden = model(input_ids, attention_mask)
+
+        # Pick last non-pad hidden state
+        last_idx = attention_mask.sum(dim=1).long() - 1
+        batch_idx = torch.arange(hidden.size(0), device=hidden.device)
+        last_hidden = hidden[batch_idx, last_idx]
+
+        return reward_head_forward(
+            last_hidden,
+            reward_head.weight,
+            reward_head.bias,
+        )
+
+    chosen_rewards = score_branch(
+        batch["chosen_input_ids"],
+        batch["chosen_attention_mask"],
+    )
+
+    rejected_rewards = score_branch(
+        batch["rejected_input_ids"],
+        batch["rejected_attention_mask"],
+    )
+
+    loss = pairwise_reward_loss(chosen_rewards, rejected_rewards)
+    accuracy = pairwise_accuracy(chosen_rewards, rejected_rewards)
+
+    loss.backward()
+    optimizer.step()
+
+    return {
+        "loss": float(loss.item()),
+        "accuracy": float(accuracy),
+    }
 
 # Step 41 - sequence_logprob (not yet solved)
 # TODO: implement
