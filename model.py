@@ -694,10 +694,11 @@ def sequence_logprob(logits, token_ids):
     # TODO: return a scalar tensor equal to sum_t log_softmax(logits)[t, token_ids[t]]
     log_probs = F.log_softmax(logits, dim = - 1)  # bcause logits = (B,T,V)
 
-    positions = torch.arange(token_ids.shape[0])
-
-
-    selected_log_probs = log_probs[positions, token_ids]
+    selected_log_probs = torch.gather(
+        log_probs,
+        dim=1,
+        index=token_ids.view(-1, 1),
+    ).squeeze(1)
 
     return selected_log_probs.sum()
 
