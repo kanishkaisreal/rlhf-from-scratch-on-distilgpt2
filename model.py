@@ -685,8 +685,21 @@ def reward_train_step(model, reward_head, batch, optimizer):
         "accuracy": float(accuracy),
     }
 
-# Step 41 - sequence_logprob (not yet solved)
-# TODO: implement
+# Step 41 - sequence_logprob
+import torch
+import torch.nn.functional as F
+
+def sequence_logprob(logits, token_ids):
+    """Sum log probabilities of the selected tokens along the sequence dimension."""
+    # TODO: return a scalar tensor equal to sum_t log_softmax(logits)[t, token_ids[t]]
+    log_probs = F.log_softmax(logits, dim = - 1)  # bcause logits = (B,T,V)
+
+    positions = torch.arange(token_ids.shape[0])
+
+
+    selected_log_probs = log_probs[positions, token_ids]
+
+    return selected_log_probs.sum()
 
 # Step 42 - per_token_kl (not yet solved)
 # TODO: implement
